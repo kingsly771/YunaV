@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>YUNAV-HBDCHAT 🎉🎂</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <!-- Emoji Picker -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     AUTH SCREEN
+═══════════════════════════════════════════════ -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-bg">
+    <div class="confetti-container" id="confetti"></div>
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="logo-emoji">🎂</span>
+        <div class="logo-text">
+          <span class="logo-brand">YUNAV</span>
+          <span class="logo-sub">HBDCHAT</span>
+        </div>
+        <span class="logo-emoji2">🎉</span>
+      </div>
+      <p class="auth-tagline">Celebrate every moment, together.</p>
+
+      <!-- Step 1: Phone -->
+      <div class="auth-step active" id="step-phone">
+        <div class="input-group">
+          <label>WhatsApp Number</label>
+          <div class="phone-input-wrap">
+            <select id="country-code" class="country-select">
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+237" selected>🇨🇲 +237</option>
+              <option value="+234">🇳🇬 +234</option>
+              <option value="+27">🇿🇦 +27</option>
+              <option value="+254">🇰🇪 +254</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+55">🇧🇷 +55</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+81">🇯🇵 +81</option>
+              <option value="+86">🇨🇳 +86</option>
+              <option value="+7">🇷🇺 +7</option>
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+971">🇦🇪 +971</option>
+            </select>
+            <input type="tel" id="phone-input" placeholder="6XX XXX XXX" maxlength="15" />
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-send-otp">
+          <span class="btn-text">Send OTP via WhatsApp</span>
+          <span class="btn-icon">📲</span>
+        </button>
+        <p class="auth-note">We'll send a verification code to your WhatsApp.</p>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div class="auth-step" id="step-otp">
+        <p class="otp-info">Enter the 6-digit code sent to <strong id="otp-phone-display"></strong></p>
+        <div class="otp-inputs">
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+          <input type="number" class="otp-digit" maxlength="1" min="0" max="9" />
+        </div>
+        <div id="otp-timer" class="otp-timer">Code expires in <span id="timer-count">10:00</span></div>
+        <button class="btn-primary" id="btn-verify-otp">
+          <span class="btn-text">Verify & Enter</span>
+          <span class="btn-icon">✨</span>
+        </button>
+        <button class="btn-ghost" id="btn-change-phone">← Change number</button>
+      </div>
+
+      <!-- Step 3: Profile setup (new users) -->
+      <div class="auth-step" id="step-profile">
+        <p class="profile-setup-title">Set up your profile 🎉</p>
+        <div class="avatar-upload-wrap">
+          <div class="avatar-preview" id="avatar-preview">
+            <span id="avatar-initials">?</span>
+            <img id="avatar-img-preview" style="display:none" />
+          </div>
+          <label class="avatar-upload-btn" for="avatar-upload-input">📷 Add photo</label>
+          <input type="file" id="avatar-upload-input" accept="image/*" style="display:none" />
+        </div>
+        <div class="input-group">
+          <label>Your Name</label>
+          <input type="text" id="profile-name-input" placeholder="e.g. Yuna Valenhart" maxlength="50" />
+        </div>
+        <div class="input-group">
+          <label>Status</label>
+          <input type="text" id="profile-status-input" placeholder="🎉 Ready to celebrate!" maxlength="100" value="🎉 Ready to celebrate!" />
+        </div>
+        <button class="btn-primary" id="btn-save-profile">
+          <span class="btn-text">Let's Party! 🎂</span>
+        </button>
+      </div>
+
+      <div class="auth-error" id="auth-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN APP
+═══════════════════════════════════════════════ -->
+<div id="app-screen" class="screen">
+  <div class="app-layout">
+
+    <!-- ── Sidebar ─────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">🎂 YUNAV</div>
+        <div class="sidebar-actions">
+          <button class="icon-btn" id="btn-search-users" title="New Chat">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
+          <button class="icon-btn" id="btn-theme-toggle" title="Toggle Theme">🌙</button>
+          <div class="avatar-btn" id="sidebar-avatar-btn">
+            <div class="user-avatar sm" id="sidebar-avatar">
+              <span id="sidebar-initials"></span>
+              <img id="sidebar-avatar-img" style="display:none" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="sidebar-search" id="search-panel" style="display:none">
+        <input type="text" id="user-search-input" placeholder="Search by name or phone…" />
+        <div class="search-results" id="search-results"></div>
+      </div>
+
+      <!-- Conversations list -->
+      <div class="conv-list" id="conv-list">
+        <div class="conv-list-empty" id="conv-list-empty">
+          <span>🎉</span>
+          <p>No conversations yet</p>
+          <small>Search for a friend to start chatting!</small>
+        </div>
+      </div>
+
+      <!-- Profile panel (bottom) -->
+      <div class="sidebar-footer">
+        <div class="my-profile-strip" id="my-profile-strip">
+          <div class="user-avatar sm" id="footer-avatar">
+            <span id="footer-initials"></span>
+            <img id="footer-avatar-img" style="display:none" />
+          </div>
+          <div class="profile-info">
+            <span id="footer-name"></span>
+            <span id="footer-status"></span>
+          </div>
+          <button class="icon-btn" id="btn-edit-profile" title="Edit Profile">✏️</button>
+          <button class="icon-btn" id="btn-logout" title="Logout">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Chat area ───────────────────────────────────── -->
+    <main class="chat-area" id="chat-area">
+
+      <!-- Empty state -->
+      <div class="chat-empty" id="chat-empty">
+        <div class="chat-empty-content">
+          <div class="chat-empty-emoji">🎂🎉</div>
+          <h2>YUNAV-HBDCHAT</h2>
+          <p>Select a conversation or search for someone to start celebrating!</p>
+        </div>
+        <div class="floating-emojis">
+          <span style="--d:0s;--x:10%;--y:20%">🎂</span>
+          <span style="--d:0.5s;--x:80%;--y:15%">🎉</span>
+          <span style="--d:1s;--x:25%;--y:70%">🎈</span>
+          <span style="--d:1.5s;--x:70%;--y:65%">✨</span>
+          <span style="--d:2s;--x:50%;--y:40%">🎊</span>
+          <span style="--d:2.5s;--x:15%;--y:50%">🥳</span>
+          <span style="--d:3s;--x:88%;--y:80%">🎁</span>
+        </div>
+      </div>
+
+      <!-- Active chat -->
+      <div class="chat-window" id="chat-window" style="display:none">
+        <!-- Header -->
+        <div class="chat-header">
+          <button class="icon-btn back-btn" id="btn-back-to-list">←</button>
+          <div class="chat-header-user">
+            <div class="user-avatar md" id="chat-header-avatar">
+              <span id="chat-header-initials"></span>
+              <img id="chat-header-avatar-img" style="display:none" />
+              <span class="online-dot" id="chat-header-online-dot"></span>
+            </div>
+            <div class="chat-header-info">
+              <span class="chat-header-name" id="chat-header-name"></span>
+              <span class="chat-header-sub" id="chat-header-sub">Online</span>
+            </div>
+          </div>
+          <div class="chat-header-actions">
+            <button class="icon-btn">🎉</button>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="messages-container" id="messages-container">
+          <div class="messages-loading" id="messages-loading">Loading messages…</div>
+        </div>
+
+        <!-- Typing indicator -->
+        <div class="typing-indicator" id="typing-indicator" style="display:none">
+          <div class="typing-bubbles">
+            <span></span><span></span><span></span>
+          </div>
+          <span id="typing-name"></span> is typing…
+        </div>
+
+        <!-- Input area -->
+        <div class="message-input-area">
+          <div class="emoji-picker-wrap" id="emoji-picker-wrap" style="display:none">
+            <emoji-picker id="emoji-picker"></emoji-picker>
+          </div>
+          <div class="input-row">
+            <button class="icon-btn emoji-toggle-btn" id="btn-emoji-toggle">😊</button>
+            <div class="input-wrap">
+              <textarea
+                id="message-input"
+                placeholder="Type a message… 🎉"
+                rows="1"
+                maxlength="2000"
+              ></textarea>
+            </div>
+            <button class="btn-send" id="btn-send-message">
+              <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ── Profile Edit Modal ──────────────────────────── -->
+    <div class="modal-overlay" id="profile-modal" style="display:none">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Edit Profile</h3>
+          <button class="icon-btn" id="btn-close-profile-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="avatar-upload-wrap">
+            <div class="avatar-preview lg" id="modal-avatar-preview">
+              <span id="modal-avatar-initials"></span>
+              <img id="modal-avatar-img" style="display:none" />
+            </div>
+            <label class="avatar-upload-btn" for="modal-avatar-input">📷 Change Photo</label>
+            <input type="file" id="modal-avatar-input" accept="image/*" style="display:none" />
+          </div>
+          <div class="input-group">
+            <label>Name</label>
+            <input type="text" id="modal-name-input" maxlength="50" />
+          </div>
+          <div class="input-group">
+            <label>Status</label>
+            <input type="text" id="modal-status-input" maxlength="100" />
+          </div>
+          <button class="btn-primary" id="btn-save-profile-modal">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
