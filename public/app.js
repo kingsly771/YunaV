@@ -106,7 +106,7 @@ function showBannedScreen(ban) {
 // ══════════════════════════════════════════════════════════════
 function initFirebase() {
   const cfg=window.__FIREBASE_CONFIG__;
-  if(!cfg||cfg.apiKey==='YOUR_API_KEY') {
+  if(!cfg||cfg.apiKey==='AIzaSyBxuJoKzPc9L8jQ8vrCl_XVwOo8NCNzJjs') {
     $('#firebase-config-notice').style.display='block';
     $('#btn-google-signin').disabled=true; $('#btn-google-signin').style.opacity='.4';
     return false;
