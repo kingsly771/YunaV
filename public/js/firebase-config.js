@@ -15,12 +15,12 @@
  */
 
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey:            "AIzaSyBxuJoKzPc9L8jQ8vrCl_XVwOo8NCNzJjs",
+  authDomain:        "yunav-7ae17.firebaseapp.com",
+  projectId:         "yunav-7ae17",
+  storageBucket:     "yunav-7ae17.firebasestorage.app",
+  messagingSenderId: "786764144638",
+  appId:             "1:786764144638:web:8f62ccafcfc04ad8d16aaf"
 };
 
 // Do not edit below this line
